@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+import time
 import unittest
+
 
 class NewVisitorTest(unittest.TestCase):
 
@@ -17,15 +20,31 @@ class NewVisitorTest(unittest.TestCase):
 
         # He notices the page title and header mention cargo
         self.assertIn('Cargo', self.browser.title)
-        self.fail('Finish the test!')
+        header_text = self.browser.find_element_by_tag_name('h1').text
+        self.assertIn('Cargo', header_text)
 
         # He is invited to enter a type of cargo
+        inputbox = self.browser.find_element_by_id('new_cargo')
+        self.assertEqual(
+            inputbox.get_attribute('placeholder'),
+            'Enter a cargo type'
+        )
 
         # He types "Grain" into a text box
+        inputbox.send_keys('Grain')
 
-        # When he hits enter, the page updates, and now the page lists "Carriage 1: Grain" as an item of cargo
+        # When he hits enter, the page updates, and now the page lists "1: Grain" as an item of cargo
+        inputbox.send_keys(Keys.ENTER)
+        time.sleep(1)
+
+        table = self.browser.find_element_by_id('cargo_list')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertTrue(
+            any(row.text == '1: Grain' for row in rows)
+        )
 
         # There is still a text box inviting him to add another type of cargo. He enters "Iron".
+        self.fail('Finish the test!')
 
         # The page updates again, and now shows both types of cargo on his list
 
