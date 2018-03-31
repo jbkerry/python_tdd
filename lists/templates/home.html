@@ -4,8 +4,13 @@
     </head>
     <body>
         <h1>Selected Cargo</h1>
-        <input id="new_cargo" placeholder="Enter a cargo type" />
+        <form method="POST">
+            <input name="cargo_text" id="new_cargo" placeholder="Enter a cargo type" />
+            {% csrf_token %}
+        </form>
+
         <table id="cargo_list">
+            <tr><td>1: {{ new_cargo_text }}</td></tr>
         </table>
     </body>
 </html>
