@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <title>Cargo Selection</title>
+    </head>
+    <body>
+        <h1>Selected Cargo</h1>
+        <form method="POST" action="/lists/new">
+            <input name="cargo_text" id="new_cargo" placeholder="Enter a cargo type" />
+            {% csrf_token %}
+        </form>
+
+        <table id="cargo_list">
+            {% for item in items %}
+                <tr><td>{{ forloop.counter }}: {{ item.text }}</td></tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>

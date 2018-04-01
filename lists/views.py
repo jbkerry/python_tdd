@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from .models import Item
+from .models import Item, List
 
 
 def home_page(request):
@@ -15,5 +15,6 @@ def view_cargo(request):
 
 
 def new_cargo(request):
-    Item.objects.create(text=request.POST['cargo_text'])
+    cargo_list = List.objects.create()
+    Item.objects.create(text=request.POST['cargo_text'], list=cargo_list)
     return redirect('/lists/the-only-list-in-the-world/')
