@@ -1,3 +1,4 @@
+from .models import Item
 from django.test import TestCase
 
 
@@ -11,3 +12,23 @@ class HomePageTest(TestCase):
         response = self.client.post('/', data={'cargo_text': 'A new cargo item'})
         self.assertIn('A new cargo item', response.content.decode())
         self.assertTemplateUsed(response, 'home.html')
+
+
+class ItemModelTest(TestCase):
+
+    def test_saving_and_retrieving_items(self):
+        first_item = Item()
+        first_item.text = 'The first (ever) cargo item'
+        first_item.save()
+
+        second_item = Item()
+        second_item.text = 'Cargo the second'
+        second_item.save()
+
+        saved_items = Item.objects.all()
+        self.assertEqual(saved_items.count(), 2)
+
+        first_saved_item = saved_items[0]
+        second_saved_item = saved_items[1]
+        self.assertEqual(first_saved_item.text, 'The first (ever) cargo item')
+        self.assertEqual(second_saved_item.text, 'Cargo the second')
