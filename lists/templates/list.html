@@ -1,18 +1,13 @@
-<html>
-    <head>
-        <title>Cargo Selection</title>
-    </head>
-    <body>
-        <h1>Selected Cargo</h1>
-        <form method="POST" action="/lists/{{ cargo_list.id }}/add_cargo">
-            <input name="cargo_text" id="new_cargo" placeholder="Enter a cargo type" />
-            {% csrf_token %}
-        </form>
+{% extends 'base.html' %}
 
-        <table id="cargo_list">
-            {% for item in cargo_list.item_set.all %}
-                <tr><td>{{ forloop.counter }}: {{ item.text }}</td></tr>
-            {% endfor %}
-        </table>
-    </body>
-</html>
+{% block header_text %}Selected Cargo{% endblock %}
+
+{% block form_action %}/lists/{{ cargo_list.id }}/add_cargo{% endblock %}
+
+{% block table %}
+    <table id="cargo_list">
+      {% for item in cargo_list.item_set.all %}
+        <tr><td>{{ forloop.counter }}: {{ item.text }}</td></tr>
+      {% endfor %}
+    </table>
+{% endblock %}
