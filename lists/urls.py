@@ -13,11 +13,11 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import include, url
-from lists import views as list_views
-from lists import urls as list_urls
+from django.conf.urls import url
+from lists import views
 
 urlpatterns = [
-    url(r'^$', list_views.home_page, name='home'),
-    url(r'^lists/', include(list_urls)),
+    url(r'^new$', views.new_cargo, name='new_cargo'),
+    url(r'^(\d+)/$', views.view_cargo, name='view_cargo'),
+    url(r'^(\d+)/add_cargo$', views.add_cargo, name='add_cargo'),
 ]
