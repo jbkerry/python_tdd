@@ -8,13 +8,19 @@ def home_page(request):
     # return HttpResponse('<html><title>Cargo Selection</title></html>')
 
 
-def view_cargo(request):
-    items = Item.objects.all()
-
-    return render(request, 'list.html', {'items': items})
+def view_cargo(request, cargo_list_id):
+    cargo_list = List.objects.get(id=cargo_list_id)
+    return render(request, 'list.html', {'cargo_list': cargo_list})
 
 
 def new_cargo(request):
     cargo_list = List.objects.create()
     Item.objects.create(text=request.POST['cargo_text'], list=cargo_list)
-    return redirect('/lists/the-only-list-in-the-world/')
+    return redirect(f'/lists/{cargo_list.id}/')
+
+
+def add_cargo(request, cargo_list_id):
+    cargo_list = List.objects.get(id=cargo_list_id)
+    Item.objects.create(text=request.POST['cargo_text'], list=cargo_list)
+
+    return redirect(f'/lists/{cargo_list.id}/')

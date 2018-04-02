@@ -105,9 +105,3 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertIn('Timber', page_text)
 
         # Satisfied they both go back to sleep
-
-        # Roger wonders whether the site will remember his list. Then he sees that the site has generated a unique URL
-        # for him -- there is some explanatory text to that effect.
-        self.fail('Finish the test!')
-
-        # He visits that URL - his cargo list is still there.

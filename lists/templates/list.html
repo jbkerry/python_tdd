@@ -4,13 +4,13 @@
     </head>
     <body>
         <h1>Selected Cargo</h1>
-        <form method="POST" action="/lists/new">
+        <form method="POST" action="/lists/{{ cargo_list.id }}/add_cargo">
             <input name="cargo_text" id="new_cargo" placeholder="Enter a cargo type" />
             {% csrf_token %}
         </form>
 
         <table id="cargo_list">
-            {% for item in items %}
+            {% for item in cargo_list.item_set.all %}
                 <tr><td>{{ forloop.counter }}: {{ item.text }}</td></tr>
             {% endfor %}
         </table>
