@@ -1,4 +1,4 @@
-from .models import Item, List
+from ..models import Item, List
 from django.test import TestCase
 
 
