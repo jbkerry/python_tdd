@@ -16,7 +16,7 @@ def view_cargo(request, cargo_list_id):
 
     if request.method == 'POST':
         try:
-            item = Item(text=request.POST['cargo_text'], list=cargo_list)
+            item = Item(text=request.POST['text'], list=cargo_list)
             item.full_clean()
             item.save()
             return redirect(cargo_list)
@@ -28,7 +28,7 @@ def view_cargo(request, cargo_list_id):
 
 def new_cargo(request):
     cargo_list = List.objects.create()
-    item = Item(text=request.POST['cargo_text'], list=cargo_list)
+    item = Item(text=request.POST['text'], list=cargo_list)
     try:
         item.full_clean()
         item.save()

@@ -17,7 +17,7 @@ class NewVisitorTest(FunctionalTest):
         self.assertIn('Cargo', header_text)
 
         # He is invited to enter a type of cargo
-        inputbox = self.browser.find_element_by_id('new_cargo')
+        inputbox = self.get_item_input_box()
         self.assertEqual(
             inputbox.get_attribute('placeholder'),
             'Enter a cargo type'
@@ -31,7 +31,7 @@ class NewVisitorTest(FunctionalTest):
         self.wait_for_row_in_list_table('1: Grain')
 
         # There is still a text box inviting him to add another type of cargo. He enters "Iron".
-        inputbox = self.browser.find_element_by_id('new_cargo')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys('Iron')
         inputbox.send_keys(Keys.ENTER)
 
@@ -44,7 +44,7 @@ class NewVisitorTest(FunctionalTest):
     def test_multiple_users_can_start_lists_at_different_urls(self):
         # Roger starts a new cargo list
         self.browser.get(self.live_server_url)
-        inputbox = self.browser.find_element_by_id('new_cargo')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys('Grain')
         inputbox.send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table('1: Grain')
@@ -66,7 +66,7 @@ class NewVisitorTest(FunctionalTest):
         self.assertNotIn('Iron', page_text)
 
         # Billy starts a new list by entering a new item. He trades different cargo to Roger...
-        inputbox = self.browser.find_element_by_id('new_cargo')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys('Timber')
         inputbox.send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table('1: Timber')
