@@ -1,5 +1,4 @@
 from django.http import HttpResponse
-from django.core.exceptions import ValidationError
 from django.shortcuts import redirect, render
 from lists.forms import ItemForm
 from lists.models import Item, List
@@ -12,28 +11,20 @@ def home_page(request):
 
 def view_cargo(request, cargo_list_id):
     cargo_list = List.objects.get(id=cargo_list_id)
-    error = None
-
+    form = ItemForm()
     if request.method == 'POST':
-        try:
-            item = Item(text=request.POST['text'], list=cargo_list)
-            item.full_clean()
-            item.save()
+        form = ItemForm(data=request.POST)
+        if form.is_valid():
+            Item.objects.create(text=request.POST['text'], list=cargo_list)
             return redirect(cargo_list)
-        except ValidationError:
-            error = "You can't have an empty list item"
-
-    return render(request, 'list.html', {'cargo_list': cargo_list, 'error': error})
+    return render(request, 'list.html', {'cargo_list': cargo_list, 'form': form})
 
 
 def new_cargo(request):
-    cargo_list = List.objects.create()
-    item = Item(text=request.POST['text'], list=cargo_list)
-    try:
-        item.full_clean()
-        item.save()
-    except ValidationError:
-        cargo_list.delete()
-        error = "You can't have an empty list item"
-        return render(request, 'home.html', {'error': error})
-    return redirect(cargo_list)
+    form = ItemForm(data=request.POST)
+    if form.is_valid():
+        cargo_list = List.objects.create()
+        Item.objects.create(text=request.POST['text'], list=cargo_list)
+        return redirect(cargo_list)
+    else:
+        return render(request, 'home.html', {'form': form})
