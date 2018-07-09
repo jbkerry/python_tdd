@@ -15,7 +15,7 @@ def view_cargo(request, cargo_list_id):
     if request.method == 'POST':
         form = ItemForm(data=request.POST)
         if form.is_valid():
-            Item.objects.create(text=request.POST['text'], list=cargo_list)
+            form.save(for_list=cargo_list)
             return redirect(cargo_list)
     return render(request, 'list.html', {'cargo_list': cargo_list, 'form': form})
 
@@ -24,7 +24,7 @@ def new_cargo(request):
     form = ItemForm(data=request.POST)
     if form.is_valid():
         cargo_list = List.objects.create()
-        Item.objects.create(text=request.POST['text'], list=cargo_list)
+        form.save(for_list=cargo_list)
         return redirect(cargo_list)
     else:
         return render(request, 'home.html', {'form': form})
