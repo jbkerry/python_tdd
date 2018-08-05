@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from lists.forms import ItemForm
+from lists.forms import ExistingListItemForm, ItemForm
 from lists.models import Item, List
 
 
@@ -11,11 +11,11 @@ def home_page(request):
 
 def view_cargo(request, cargo_list_id):
     cargo_list = List.objects.get(id=cargo_list_id)
-    form = ItemForm()
+    form = ExistingListItemForm(for_list=cargo_list)
     if request.method == 'POST':
-        form = ItemForm(data=request.POST)
+        form = ExistingListItemForm(for_list=cargo_list, data=request.POST)
         if form.is_valid():
-            form.save(for_list=cargo_list)
+            form.save()
             return redirect(cargo_list)
     return render(request, 'list.html', {'cargo_list': cargo_list, 'form': form})
 

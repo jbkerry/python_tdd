@@ -47,3 +47,9 @@ class ExistingListItemFormTest(TestCase):
         form = ExistingListItemForm(for_list=cargo_list, data={'text': 'Maize'})
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors['text'], [DUPLICATE_ITEM_ERROR])
+
+    def test_form_save(self):
+        cargo_list = List.objects.create()
+        form = ExistingListItemForm(for_list=cargo_list, data={'text': 'Lumber'})
+        new_cargo = form.save()
+        self.assertEqual(new_cargo, Item.objects.all()[0])
