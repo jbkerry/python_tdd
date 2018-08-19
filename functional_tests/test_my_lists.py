@@ -23,7 +23,7 @@ class MyListsTest(FunctionalTest):
             value=session.session_key,
             path='/'
         ))
-        
+
     def test_logged_in_users_lists_are_saved_as_my_lists(self):
         email = 'edith@example.com'
         self.browser.get(self.live_server_url)
