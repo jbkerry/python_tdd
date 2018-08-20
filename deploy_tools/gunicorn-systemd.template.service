@@ -5,8 +5,11 @@ Description=Gunicorn server for SITENAME
 Restart=on-failure
 User=elspeth
 WorkingDirectory=/home/elspeth/sites/SITENAME/source
+Environment=EMAIL_PASSWORD=SOMESECRET
 ExecStart=/home/elspeth/sites/SITENAME/virtualenv/bin/gunicorn \
     --bind unix:/tmp/SITENAME.socket \
+    --access-logfile ../access.log \
+    --error-logfile ../error.log \
     trade_worlds.wsgi:application
 
 [Install]
