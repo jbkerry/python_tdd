@@ -28,3 +28,7 @@ def new_cargo(request):
         return redirect(cargo_list)
     else:
         return render(request, 'home.html', {'form': form})
+
+
+def my_cargo(request, email):
+    return render(request, 'my_cargo.html')

@@ -19,4 +19,5 @@ from lists import views
 urlpatterns = [
     url(r'^new$', views.new_cargo, name='new_cargo'),
     url(r'^(\d+)/$', views.view_cargo, name='view_cargo'),
+    url(r'^users/(.+)/$', views.my_cargo, name='my_cargo'),
 ]

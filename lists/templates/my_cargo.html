@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block header_text %}My Cargo Shipments{% endblock %}
+
+{% block cargo_form %}{% endblock %}
+
+{% block extra_content %}
+  <h2>{{ owner.email }}'s cargo shipments</h2>
+  <ul>
+    {% for cargo in cargo_set.all %}
+      <li><a href="{{ cargo.get_absolute_url }}">{{ cargo.name }}</a></li>
+    {% endfor %}
+  </ul>
+{% endblock %}
