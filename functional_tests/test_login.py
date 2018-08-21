@@ -42,7 +42,6 @@ class LoginTest(FunctionalTest):
             self.fail(f'Could not find url in email body:\n{body}')
         url = url_search.group(0)
         self.assertIn(self.live_server_url, url)
-
         # she clicks it
         self.browser.get(url)
 
@@ -64,11 +63,12 @@ class LoginTest(FunctionalTest):
 
         email_id = None
         start = time.time()
-        inbox = poplib.POP3_SSL('pop.mail.yahoo.com')
+
         try:
-            inbox.user(test_email)
-            inbox.pass_(os.environ['YAHOO_PASSWORD'])
             while time.time() - start < 60:
+                inbox = poplib.POP3_SSL('pop.mail.yahoo.com')
+                inbox.user(test_email)
+                inbox.pass_(os.environ['YAHOO_PASSWORD'])
                 # get 10 newest messages
                 count, _ = inbox.stat()
                 for i in reversed(range(max(1, count - 10), count + 1)):

@@ -1,7 +1,10 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.contrib.auth import get_user_model
 from lists.forms import ExistingListItemForm, ItemForm
 from lists.models import Item, List
+
+User = get_user_model()
 
 
 def home_page(request):
@@ -23,7 +26,9 @@ def view_cargo(request, cargo_list_id):
 def new_cargo(request):
     form = ItemForm(data=request.POST)
     if form.is_valid():
-        cargo_list = List.objects.create()
+        cargo_list = List()
+        cargo_list.owner = request.user
+        cargo_list.save()
         form.save(for_list=cargo_list)
         return redirect(cargo_list)
     else:
@@ -31,4 +36,5 @@ def new_cargo(request):
 
 
 def my_cargo(request, email):
-    return render(request, 'my_cargo.html')
+    owner = User.objects.get(email=email)
+    return render(request, 'my_cargo.html', {'owner': owner})

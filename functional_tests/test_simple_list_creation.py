@@ -44,10 +44,7 @@ class NewVisitorTest(FunctionalTest):
     def test_multiple_users_can_start_lists_at_different_urls(self):
         # Roger starts a new cargo list
         self.browser.get(self.live_server_url)
-        inputbox = self.get_item_input_box()
-        inputbox.send_keys('Grain')
-        inputbox.send_keys(Keys.ENTER)
-        self.wait_for_row_in_list_table('1: Grain')
+        self.add_cargo_item('Grain')
 
         # He notices that his list has a unique URL
         roger_list_url = self.browser.current_url
@@ -66,10 +63,7 @@ class NewVisitorTest(FunctionalTest):
         self.assertNotIn('Iron', page_text)
 
         # Billy starts a new list by entering a new item. He trades different cargo to Roger...
-        inputbox = self.get_item_input_box()
-        inputbox.send_keys('Timber')
-        inputbox.send_keys(Keys.ENTER)
-        self.wait_for_row_in_list_table('1: Timber')
+        self.add_cargo_item('Timber')
 
         # Billy gets his own unique URL
         billy_list_url = self.browser.current_url
