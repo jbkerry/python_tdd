@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth import get_user_model
-from lists.forms import ExistingListItemForm, ItemForm
+from lists.forms import ExistingListItemForm, ItemForm, NewListForm
 from lists.models import Item, List
 
 User = get_user_model()
@@ -24,15 +24,11 @@ def view_cargo(request, cargo_list_id):
 
 
 def new_cargo(request):
-    form = ItemForm(data=request.POST)
+    form = NewListForm(data=request.POST)
     if form.is_valid():
-        cargo_list = List()
-        cargo_list.owner = request.user
-        cargo_list.save()
-        form.save(for_list=cargo_list)
+        cargo_list = form.save(owner=request.user)
         return redirect(cargo_list)
-    else:
-        return render(request, 'home.html', {'form': form})
+    return render(request, 'home.html', {'form': form})
 
 
 def my_cargo(request, email):

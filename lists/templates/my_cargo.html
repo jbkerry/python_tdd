@@ -7,7 +7,7 @@
 {% block extra_content %}
   <h2>{{ owner.email }}'s cargo shipments</h2>
   <ul>
-    {% for cargo in cargo_set.all %}
+    {% for cargo in owner.list_set.all %}
       <li><a href="{{ cargo.get_absolute_url }}">{{ cargo.name }}</a></li>
     {% endfor %}
   </ul>
