@@ -1,6 +1,6 @@
 window.CargoLists = {};
-window.CargoLists.initialize = () => {
-  $('input[name="text"]').on('keypress focus', () => {
+window.CargoLists.initialize = function () {
+  $('input[name="text"]').on('keypress focus', function () {
     $('.has-error').hide();
   });
 };
