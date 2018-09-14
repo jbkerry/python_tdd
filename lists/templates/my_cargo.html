@@ -11,4 +11,10 @@
       <li><a href="{{ cargo.get_absolute_url }}">{{ cargo.name }}</a></li>
     {% endfor %}
   </ul>
+  <h2>Cargo shipments shared with {{ owner.email }}</h2>
+  <ul>
+    {% for cargo in owner.list_shared_with.all %}
+      <li><a href="{{ cargo.get_absolute_url }}">{{ cargo.name }}</a></li>
+    {% endfor %}
+  </ul>
 {% endblock %}

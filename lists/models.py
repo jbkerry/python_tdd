@@ -6,6 +6,7 @@ from django.core.urlresolvers import reverse
 # Create your models here.
 class List(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
+    shared_with = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='list_shared_with')
 
     def get_absolute_url(self):
         return reverse('view_cargo', args=[self.id])

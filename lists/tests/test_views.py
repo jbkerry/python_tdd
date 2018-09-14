@@ -207,3 +207,26 @@ class MyCargoTest(TestCase):
         correct_user = User.objects.create(email='a@b.com')
         response = self.client.get('/lists/users/a@b.com/')
         self.assertEqual(response.context['owner'], correct_user)
+
+
+class ShareListTest(TestCase):
+
+    def test_post_redirects_to_lists_page(self):
+        shared_list = List.objects.create()
+        response = self.client.post(
+            f'/lists/{shared_list.id}/share',
+            data={'sharee': 'not@important.com'}
+        )
+
+        self.assertRedirects(response, f'/lists/{shared_list.id}/')
+
+    def test_shares_list_with_user_email(self):
+        share_user = User.objects.create(email='an@example.com')
+        shared_list = List.objects.create()
+        response = self.client.post(
+            f'/lists/{shared_list.id}/share',
+            data={'sharee': 'an@example.com'}
+        )
+
+        self.assertIn(share_user, shared_list.shared_with.all())
+

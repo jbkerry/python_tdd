@@ -34,3 +34,10 @@ def new_cargo(request):
 def my_cargo(request, email):
     owner = User.objects.get(email=email)
     return render(request, 'my_cargo.html', {'owner': owner})
+
+
+def share_cargo(request, cargo_list_id):
+    cargo_list = List.objects.get(id=cargo_list_id)
+    cargo_list.shared_with.add(request.POST['sharee'])
+
+    return redirect(cargo_list)
